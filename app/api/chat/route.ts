@@ -75,9 +75,11 @@ export async function POST(request: NextRequest) {
     
     // 캐시에 응답 저장 (1000개 제한)
     if (messageCache.size > 1000) {
-      // 가장 오래된 항목 제거
+      // 가장 오래된 항목 제거 - TypeScript 오류 수정
       const firstKey = messageCache.keys().next().value;
-      messageCache.delete(firstKey);
+      if (firstKey !== undefined) {
+        messageCache.delete(firstKey);
+      }
     }
     messageCache.set(message, response);
 
